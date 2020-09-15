@@ -1,0 +1,48 @@
+name:                packrat-combinators
+version:             0.1.0.0
+github:              "Ph4ntomas/packrat-combinators"
+license:             LGPL-3.0-or-later
+author:              "Gabriel Cadet"
+maintainer:          "phantomas@phantomas.xyz"
+copyright:           "2020 - Gabriel Cadet"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/Ph4ntomas/packrat-combinators#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  packrat-combinators-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - packrat-combinators
+
+tests:
+  packrat-combinators-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - packrat-combinators
