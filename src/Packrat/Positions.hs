@@ -13,8 +13,8 @@ nextpos (PackPos f l c) _ = PackPos f l (c + 1)
 
 instance Eq PackPos where
   (PackPos fl ll cl) == (PackPos fr lr cr) =
-    fl == fr && ll == lr && cl == cl
+    fl == fr && ll == lr && cl == cr
 
 instance Ord PackPos where
   (PackPos fl ll cl) <= (PackPos fr lr cr) =
-    (ll < lr) || (ll <= lr && cl <= cr)
+    (ll < lr) || (ll == lr && cl <= cr)
