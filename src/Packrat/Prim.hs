@@ -1,6 +1,7 @@
 module Packrat.Prim where
 
 import Control.Applicative
+import Data.Semigroup as Semigroup (Semigroup(..))
 import Data.List
 
 import Packrat.Positions
@@ -68,6 +69,9 @@ instance Derivs d => Monad (Parser d) where
 
 instance Derivs d => MonadFail (Parser d) where
   fail s = Parser (\dvs -> NoParse (PackError (dvPos dvs) [Message s]))
+
+instance (Semigroup.Semigroup v, Derivs d) => Semigroup.Semigroup (Parser d v) where
+  (<>) = liftA2 (Semigroup.<>)
 
 unit :: Derivs d => a -> Parser d a
 unit v = Parser (\d -> Parsed v d (nullError d))
