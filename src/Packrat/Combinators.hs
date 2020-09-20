@@ -28,7 +28,7 @@ notFollowdBy (Parser p) = Parser try where
 -- Iterative combinator 
 -- These can break memoization.
 sepBy1 :: Derivs d => Parser d v -> Parser d sep -> Parser d [v]
-sepBy1 p psep = (:) <$> p <*> (many (psep *> p))
+sepBy1 p psep = (:) <$> p <*> many (psep *> p)
 
 sepBy :: Derivs d => Parser d v -> Parser d sep -> Parser d [v]
 sepBy p psep = sepBy1 p psep <|> pure []

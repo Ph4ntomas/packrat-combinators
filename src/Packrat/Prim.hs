@@ -45,7 +45,7 @@ instance Derivs d => Applicative (Parser d) where
       NoParse err' -> NoParse (joinErrors err err')
 
 instance Derivs d => Alternative (Parser d) where
-  empty = Parser (\d -> NoParse (nullError d))
+  empty = Parser (NoParse . nullError)
 
   (Parser lhs) <|> (Parser rhs) = Parser left_hand where
     left_hand dvs = case lhs dvs of
@@ -117,7 +117,7 @@ showMessages msgs = "Several error messages exists :\n" ++ msgList msgs where
   msgList (Message msg:tl) = "  " ++ show msg ++ ",\n"
 
 joinErrors :: PackError -> PackError -> PackError
-joinErrors (el@(PackError pl dl)) (er@(PackError pr dr))
+joinErrors el@(PackError pl dl) er@(PackError pr dr)
   | pl < pr || null dl = er
   | pr < pl || null dr = el
   | otherwise = PackError pl (union dl dr)
