@@ -21,3 +21,6 @@ instance Eq PackPos where
 instance Ord PackPos where
   (PackPos fl ll cl) <= (PackPos fr lr cr) =
     (ll < lr) || (ll == lr && cl <= cr)
+
+instance Show PackPos where
+  show (PackPos f l c) = show f ++ ":" ++ show l ++ ":" ++ show c ++ ": "
