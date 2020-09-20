@@ -6,6 +6,9 @@ data PackPos = PackPos {
               column :: Int
 }
 
+newpos :: String -> PackPos
+newpos file = PackPos file 1 1
+
 nextpos :: PackPos -> Char -> PackPos
 nextpos (PackPos f l c) '\n' = PackPos f (l + 1) c
 nextpos (PackPos f l c) '\t' = PackPos f l (c + 4)
