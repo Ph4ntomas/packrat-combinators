@@ -26,6 +26,7 @@ newtype Parser d v = Parser (d -> Result d v)
 class Derivs d where
   dvPos :: d -> PackPos
   dvChar :: d -> Result d Char
+  dvInput :: d -> String
 
 instance Derivs d => Functor (Parser d) where
   fmap f (Parser p) = Parser parse where 
