@@ -4,7 +4,7 @@ cabal-version: 2.2
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0eca36bc2dc394cd8f8b5410082da72546a1478cbf74ff9885f4d67e3d02ccd0
+-- hash: a16c3fcaafe623051712655ca55fb75c7c054eeb4f354bb1a8a9475a69a688c1
 
 name:           packrat-combinators
 version:        0.1.0.0
@@ -33,6 +33,7 @@ library
       Packrat.Errors
       Packrat.Positions
       Packrat.Prim
+      Packrat.Stateful
   other-modules:
       Paths_packrat_combinators
   hs-source-dirs:
