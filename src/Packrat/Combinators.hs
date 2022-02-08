@@ -25,6 +25,9 @@ notFollowedBy (Parser p) = Parser try where
     Parsed v rem err -> NoParse (nullError dvs)
     NoParse e -> Parsed () dvs (nullError dvs)
 
+between :: Derivs d => Parser d a -> Parser d v -> Parser d v
+between d v = d *> v <* d
+
 -- Iterative combinator 
 -- These can break memoization.
 sepBy1 :: Derivs d => Parser d v -> Parser d sep -> Parser d [v]
