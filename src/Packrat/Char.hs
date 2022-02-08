@@ -23,6 +23,7 @@ string :: Derivs d => String -> Parser d String
 string s = foldr (\c -> (<*>) ((:) <$> char c)) (pure []) s <?> show s
 
 oneStringOf :: Derivs d => [String] -> Parser d String
+oneStringOf [] = error "oneStringOf: no string specified"
 oneStringOf [str] = string str
 oneStringOf (s:snxt) = string s <|> oneStringOf snxt
 
