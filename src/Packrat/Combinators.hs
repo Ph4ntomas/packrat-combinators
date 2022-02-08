@@ -19,8 +19,8 @@ followedBy (Parser p) = Parser try where
     Parsed v rem err -> Parsed v dvs (nullError dvs)
     err -> err
 
-notFollowdBy :: Derivs d => Parser d v -> Parser d ()
-notFollowdBy (Parser p) = Parser try where
+notFollowedBy :: Derivs d => Parser d v -> Parser d ()
+notFollowedBy (Parser p) = Parser try where
   try dvs = case p dvs of
     Parsed v rem err -> NoParse (nullError dvs)
     NoParse e -> Parsed () dvs (nullError dvs)
