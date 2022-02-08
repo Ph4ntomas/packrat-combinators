@@ -5,6 +5,12 @@ import Control.Applicative
 import Packrat.Prim
 import Packrat.Positions
 
+neg :: Derivs d => Parser d v -> Parser d ()
+neg (Parser p) = Parser try where
+  try dvs = case p dvs of
+    Parsed v rem err -> NoParse (nullError dvs)
+    NoParse e -> Parsed () dvs (nullError dvs)
+
 satisfy :: Derivs d => Parser d v -> (v -> Bool) -> Parser d v
 satisfy (Parser p) pred = Parser check where
   check dvs = case p dvs of
@@ -19,11 +25,8 @@ followedBy (Parser p) = Parser try where
     Parsed v rem err -> Parsed v dvs (nullError dvs)
     err -> err
 
-notFollowedBy :: Derivs d => Parser d v -> Parser d ()
-notFollowedBy (Parser p) = Parser try where
-  try dvs = case p dvs of
-    Parsed v rem err -> NoParse (nullError dvs)
-    NoParse e -> Parsed () dvs (nullError dvs)
+notFollowedBy :: Derivs d => Parser d v -> Parser d a -> Parser d v
+notFollowedBy v d = v <* neg d
 
 between :: Derivs d => Parser d a -> Parser d v -> Parser d v
 between d v = d *> v <* d

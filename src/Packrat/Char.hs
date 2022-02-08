@@ -43,4 +43,5 @@ space :: Derivs d => Parser d Char
 space = satisfy anyChar isSpace <?> "spacing"
 
 eof :: Derivs d => Parser d ()
-eof = notFollowedBy anyChar <?> "EOF"
+eof = neg anyChar <?> "EOF"
+
