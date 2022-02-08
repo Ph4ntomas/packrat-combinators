@@ -11,13 +11,14 @@ import Packrat.Positions (PackPos, nextPos)
 
 class Derivs d => Stateful d s where
   sdvState :: d -> s
-  sdvSetup :: PackPos -> s -> String -> d
+  sdvSetup :: d -> PackPos -> s -> String -> d
 
 putStateI :: Stateful d s => s -> d -> Result d ()
 putStateI state d = Parsed () d' (nullError d)
   where pos = dvPos d
         input = dvInput d
-        d' = sdvSetup pos state input
+        setup = sdvSetup d
+        d' = setup pos state input
 
 putState :: Stateful d s => s -> Parser d ()
 putState s = Parser (putStateI s)
