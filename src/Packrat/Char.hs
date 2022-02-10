@@ -33,6 +33,9 @@ upper = satisfy anyChar isUpper <?> "uppercase character"
 lower :: Derivs d => Parser d Char
 lower = satisfy anyChar isLower <?> "lowercase character"
 
+alpha :: Derivs d => Parser d Char
+alpha = satisfy anyChar isAlpha <?> "letter character"
+
 alphaNum :: Derivs d => Parser d Char
 alphaNum = satisfy anyChar isAlphaNum <?> "alpanumeric character"
 
