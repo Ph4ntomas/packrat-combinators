@@ -9,6 +9,7 @@ import Packrat.Positions
 -- Error Descriptor
 data PackEDesc =  Expected    String
                 | Unexpected  String
+                | Internal    String
                 | Message     String
 
 -- Error Wrapper

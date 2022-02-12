@@ -23,7 +23,8 @@ string :: Derivs d => String -> Parser d String
 string s = foldr (\c -> (<*>) ((:) <$> char c)) (pure []) s <?> show s
 
 oneStringOf :: Derivs d => [String] -> Parser d String
-oneStringOf [] = error "oneStringOf: no string specified"
+oneStringOf [] = Parser p 
+  where p d = NoParse $ internalError d "oneStringOf was called without any strings"
 oneStringOf [str] = string str
 oneStringOf (s:snxt) = string s <|> oneStringOf snxt
 

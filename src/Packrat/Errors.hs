@@ -13,6 +13,9 @@ infix 0 <?>
     | pos > dvPos dvs = err
     | otherwise = expError dvs edesc
 
+internalError :: Derivs d => d -> String -> PackError
+internalError dvs msg = PackError (dvPos dvs) [Internal msg]
+
 expError :: Derivs d => d -> String -> PackError
 expError dvs msg = PackError (dvPos dvs) [Expected msg]
 
