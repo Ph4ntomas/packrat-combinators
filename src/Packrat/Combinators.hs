@@ -1,22 +1,38 @@
-module Packrat.Combinators where
+module Packrat.Combinators (
+  neg
+  , satisfy
+  , peek
+  , notFollowedBy
+  , between
+  , sepBy1
+  , sepBy
+  , endBy1
+  , endBy
+  , sepEndBy1
+  , sepEndBy
+  , chainl1
+  , chainl
+  , chainr1
+  , chainr
+  , choice
+) where
 
 import Control.Applicative
+import Data.Maybe
 
 import Packrat.Prim
+import Packrat.Errors
 import Packrat.Positions
 
+-- | Negate a parser, making it fail if the parser worked.
 neg :: Derivs d => Parser d v -> Parser d ()
 neg (Parser p) = Parser try where
   try dvs = case p dvs of
-    Parsed v rem err -> NoParse (nullError dvs)
+    Parsed v rem err -> NoParse (unexpError dvs unexpected)
+      where unexpected = take (fromJust $ distance (dvPos dvs) (dvPos rem)) (dvInput dvs) 
     NoParse e -> Parsed () dvs (nullError dvs)
 
-maybe :: Derivs d => Parser d v -> Parser d (Maybe v)
-maybe (Parser p) = Parser try where
-  try dvs = case p dvs of
-    Parsed v r e -> Parsed (Just v) r e
-    NoParse e -> Parsed Nothing dvs (nullError dvs)
-
+-- | Runs a parser and check if its result satisfy a given predicate
 satisfy :: Derivs d => Parser d v -> (v -> Bool) -> Parser d v
 satisfy (Parser p) pred = Parser check where
   check dvs = case p dvs of
@@ -25,20 +41,19 @@ satisfy (Parser p) pred = Parser check where
       | otherwise -> NoParse (nullError dvs)
     NoParse e -> NoParse e
 
-followedBy :: Derivs d => Parser d v -> Parser d v
-followedBy (Parser p) = Parser try where
+-- | Run a parser, returning it's input if it worked, without consuming any input
+peek :: Derivs d => Parser d v -> Parser d v
+peek (Parser p) = Parser try where
   try dvs = case p dvs of
     Parsed v rem err -> Parsed v dvs (nullError dvs)
     err -> err
 
+-- | Ensure that a parser is not followed by another one.
 notFollowedBy :: Derivs d => Parser d v -> Parser d a -> Parser d v
 notFollowedBy v d = v <* neg d
 
 between :: Derivs d => Parser d a -> Parser d v -> Parser d v
 between d v = d *> v <* d
-
-position :: Derivs d => Parser d PackPos
-position = Parser (\d -> Parsed (dvPos d) d (nullError d))
 
 -- Iterative combinator 
 -- These can break memoization.

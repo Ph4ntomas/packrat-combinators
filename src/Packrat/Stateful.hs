@@ -6,7 +6,8 @@ module Packrat.Stateful (
   getState
 ) where
 
-import Packrat.Prim
+import Packrat.Prim (Derivs(..), Result(..), Parser(..))
+import Packrat.Errors (nullError)
 import Packrat.Positions (PackPos, nextPos)
 
 class Derivs d => Stateful d s where

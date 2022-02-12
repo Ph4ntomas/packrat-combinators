@@ -1,6 +1,17 @@
-module Packrat.Char where
+module Packrat.Char (
+  anyChar
+  , char
+  , oneOf
+  , noneOf
+  , upper
+  , lower
+  , alpha
+  , alphaNum
+  , digit
+  , space
+  , eof
+) where
 
-import Control.Applicative
 import Data.Char
 
 import Packrat.Prim
@@ -18,15 +29,6 @@ oneOf str = satisfy anyChar (flip elem str) <?> ("one of : " ++ show str)
 
 noneOf :: Derivs d => String -> Parser d Char
 noneOf str = satisfy anyChar (flip notElem str)
-
-string :: Derivs d => String -> Parser d String
-string s = foldr (\c -> (<*>) ((:) <$> char c)) (pure []) s <?> show s
-
-oneStringOf :: Derivs d => [String] -> Parser d String
-oneStringOf [] = Parser p 
-  where p d = NoParse $ internalError d "oneStringOf was called without any strings"
-oneStringOf [str] = string str
-oneStringOf (s:snxt) = string s <|> oneStringOf snxt
 
 upper :: Derivs d => Parser d Char
 upper = satisfy anyChar isUpper <?> "uppercase character"

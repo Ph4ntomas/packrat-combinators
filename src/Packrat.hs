@@ -1,13 +1,12 @@
 module Packrat (
-  module Packrat.Prim,
-  module Packrat.Positions,
-  module Packrat.Errors,
-  module Packrat.Combinators,
-  module Packrat.Char
-  ) where
+  module Packrat.Combinators
+  , module Packrat.Errors
+  , module Packrat.Positions
+  , module Packrat.Prim
+) where
 
-import Packrat.Prim
-import Packrat.Positions
-import Packrat.Errors
 import Packrat.Combinators
-import Packrat.Char
+import Packrat.Errors
+import Packrat.Positions
+import Packrat.Prim
+import Packrat.Utils
