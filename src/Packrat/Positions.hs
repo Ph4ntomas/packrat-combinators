@@ -15,7 +15,7 @@ newPosTab :: String -> Int -> PackPos
 newPosTab file = PackPos file 1 1 0
 
 nextPos :: PackPos -> Char -> PackPos
-nextPos pos@(PackPos _ l c o _) '\n' = pos {line=l + 1, offset=o + 1}
+nextPos pos@(PackPos _ l _ o _) '\n' = pos {line=l + 1, column= 1, offset=o + 1}
 nextPos pos@(PackPos _ _ c o le) '\t' = pos {column = c + le, offset=o + 1}
 nextPos pos@(PackPos _ _ c o _) _ = pos {column = c + 1, offset=o + 1}
 
