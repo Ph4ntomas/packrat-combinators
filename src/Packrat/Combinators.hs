@@ -52,8 +52,8 @@ peek (Parser p) = Parser try where
 notFollowedBy :: Derivs d => Parser d v -> Parser d a -> Parser d v
 notFollowedBy v d = v <* neg d
 
-between :: Derivs d => Parser d a -> Parser d v -> Parser d v
-between d v = d *> v <* d
+between :: Derivs d => Parser d v -> Parser d a -> Parser d v
+between v d = d *> v <* d
 
 -- Iterative combinator 
 -- These can break memoization.
